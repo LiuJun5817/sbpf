@@ -351,6 +351,8 @@ macro_rules! test_interpreter_and_jit {
                         );
                         diverged = true;
                     }
+                    // println!("_trace_interpreter = {:#?}", _trace_interpreter);
+                    // println!("trace_jit          = {:#?}", trace_jit);
                     if !compare_register_trace(&_trace_interpreter, trace_jit) {
                         let analysis = Analysis::from_executable(&$executable).unwrap();
                         let stdout = std::io::stdout();
@@ -406,7 +408,7 @@ macro_rules! test_interpreter_and_jit_asm {
         #[allow(unused_mut)]
         {
             let mut config = $config;
-            config.enable_register_tracing = true;
+            config.enable_register_tracing = false;
             let loader = Arc::new(BuiltinProgram::new_loader(config));
             let mut executable = assemble($source, loader).unwrap();
             test_interpreter_and_jit!(executable, $mem, $context_object, $expected_result);
@@ -433,7 +435,7 @@ macro_rules! test_syscall_asm {
     };
     ($source:expr, $mem:expr, ($($syscall_name:expr => $syscall_function:expr),*$(,)?), $context_object:expr, $expected_result:expr $(,)?) => {
         let mut config = Config {
-            enable_register_tracing: true,
+            enable_register_tracing: false,
             ..Config::default()
         };
         for sbpf_version in [SBPFVersion::V0, SBPFVersion::V3] {
@@ -465,7 +467,7 @@ macro_rules! test_interpreter_and_jit_elf {
     };
     ($source:expr, $mem:expr, ($($syscall_name:expr => $syscall_function:expr),* $(,)?), $context_object:expr, $expected_result:expr $(,)?) => {
         let config = Config {
-            enable_register_tracing: true,
+            enable_register_tracing: false,
             ..Config::default()
         };
         test_interpreter_and_jit_elf!($source, config, $mem, ($($syscall_name => $syscall_function),*), $context_object, $expected_result);

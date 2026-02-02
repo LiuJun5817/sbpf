@@ -37,6 +37,28 @@ use test_utils::{
 
 // BPF_ALU32_LOAD : Arithmetic and Logic
 
+// #[test]
+// fn test_div1() {
+//     let config = Config {
+//         enabled_sbpf_versions: SBPFVersion::V0..=SBPFVersion::V0,
+//         ..Config::default()
+//     };
+//     test_interpreter_and_jit_asm!(
+//         "
+//         mov32 r0, 1
+//         mov32 r1, 0
+//         div r0, r1
+//         mov32 r1, 0
+//         mov32 r1, 0
+//         exit",
+//         config.clone(),
+//         [],
+//         TestContextObject::new(5),
+//         ProgramResult::Err(EbpfError::DivideByZero),
+//         // ProgramResult::Err(EbpfError::ExceededMaxInstructions),
+//     );
+// }
+
 #[test]
 fn test_mov32_imm() {
     test_interpreter_and_jit_asm!(

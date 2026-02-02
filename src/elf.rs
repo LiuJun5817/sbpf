@@ -326,6 +326,7 @@ impl<C: ContextObject> Executable<C> {
     pub fn jit_compile(&mut self) -> Result<(), crate::error::EbpfError> {
         let jit = JitCompiler::<C>::new(self)?;
         self.compiled_program = Some(jit.compile()?);
+        println!("{:?}",self.compiled_program.as_ref().unwrap().text_section);
         Ok(())
     }
 

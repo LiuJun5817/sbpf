@@ -572,6 +572,32 @@ impl<'a> MemoryMapping<'a> {
         }
     }
 
+    #[inline]
+    pub fn hello_test1() {
+        println!("hello1");
+    }
+
+    #[inline]
+    pub fn hello_test2() {
+        println!("hello2");
+    }
+
+    #[inline]
+    pub fn hello_test3() {
+        println!("hello3");
+    }
+    
+    #[inline]
+    pub fn hello_nop() {
+        unsafe {
+            std::arch::asm!(
+                "nop",
+                "nop",
+            )
+        }
+    }
+
+
     /// Store `value` at the given address.
     #[inline]
     pub fn store<T: Pod>(&mut self, value: T, vm_addr: u64) -> ProgramResult {
